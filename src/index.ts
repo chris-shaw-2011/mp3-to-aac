@@ -15,6 +15,12 @@ async function mp3ToAac(mp3Path: string | string[], outputFilename: string, opti
    const metadata = opt.metaDataOverrides
    const coverPicturePath = metadata && metadata.coverPicturePath ? metadata.coverPicturePath : ""
 
+   if (opt.debug) {
+      console.debug("mp3Path:", mp3Path)
+      console.debug("outputFilename:", outputFilename)
+      console.debug("Applied Options:", opt)
+   }
+
    if (mp3Path instanceof Array) {
       args.push(`"concat:${mp3Path.join("|")}"`)
    }
