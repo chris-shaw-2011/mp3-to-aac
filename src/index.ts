@@ -59,7 +59,7 @@ async function mp3ToAac(mp3Path: string | string[], outputFilename: string, opti
       addMetaData(args, "synopsis", metadata.synopsis)
    }
 
-   args.push(`"${outputFilename}`)
+   args.push(`"${outputFilename}"`)
 
    if (opt.debug) {
       console.debug(`Running command ${ffmpegPath} ${args.join(" ")}`)
