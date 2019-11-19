@@ -1,0 +1,36 @@
+{
+  "name": "mp3-to-aac",
+  "version": "1.0.0",
+  "description": "Uses ffmpeg to convert one or more mp3 files to aac (m4a or m4b)",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "prepublish": "npm run build",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chris-shaw-2011/mp3-to-aac.git"
+  },
+  "keywords": [
+    "mp3",
+    "aac",
+    "m4a",
+    "m4b"
+  ],
+  "author": "Chris Shaw",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chris-shaw-2011/mp3-to-aac/issues"
+  },
+  "homepage": "https://github.com/chris-shaw-2011/mp3-to-aac#readme",
+  "devDependencies": {
+    "typescript": "^3.7.2",
+    "@types/ffmpeg-static": "^2.0.0",
+    "@types/node": "12.12.11"
+  },
+  "dependencies": {
+    "ffmpeg-static": "^2.7.0"
+  }
+}
