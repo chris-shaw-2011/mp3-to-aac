@@ -1,6 +1,8 @@
-const DefaultOptions = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var DefaultOptions = {
     detached: true,
     pipeStdio: true,
     debug: false,
 };
-export default DefaultOptions;
+exports.default = DefaultOptions;
