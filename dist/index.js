@@ -42,7 +42,7 @@ exports.default = async (mp3Path, outputFilename, options) => {
     }
     args.push("-c:a", "aac");
     if (coverPicturePath) {
-        args.push("-vocodec", "copy", "-disposition:1", "attached_pic");
+        args.push("-vcodec", "copy", "-disposition:1", "attached_pic");
     }
     if (metadata) {
         addMetaData(args, "album", metadata.album);
