@@ -46,6 +46,7 @@ describe("mp3-to-aac", () => {
          description: "desc\"ription",
          synopsis: "syno\"psis",
          title: "tit\"le",
+         coverPicturePath: "tests\\test.jpg"
       }
 
       await removeIfExsits(out)
@@ -66,6 +67,8 @@ describe("mp3-to-aac", () => {
       expect(tags.title).to.equal(overrides.title)
       expect(tags.track).to.equal(overrides.trackNumber)
       expect(tags.year).to.equal(overrides.year!.toString())
+      expect(tags.picture).not.be.undefined
+      expect(tags.picture!.data.length).is.greaterThan(0)
 
       await removeIfExsits(out)
    })

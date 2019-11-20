@@ -46,7 +46,7 @@ export default async (mp3Path: string | string[], outputFilename: string, option
    args.push("-c:a", "aac")
 
    if (coverPicturePath) {
-      args.push("-vocodec", "copy", "-disposition:1", "attached_pic")
+      args.push("-vcodec", "copy", "-disposition:1", "attached_pic")
    }
 
    if (metadata) {
