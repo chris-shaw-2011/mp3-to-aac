@@ -9,7 +9,7 @@ import DefaultOptions from "./DefaultOptions"
  * @param outputFileName The output name of the converted file (should end in .m4a or .m4b)
  * @param options 
  */
-async function mp3ToAac(mp3Path: string | string[], outputFilename: string, options?: Options) {
+export default async (mp3Path: string | string[], outputFilename: string, options?: Options) => {
    const opt = { ...DefaultOptions, ...options }
    var args = ["-i"]
    const metadata = opt.metaDataOverrides
@@ -22,10 +22,15 @@ async function mp3ToAac(mp3Path: string | string[], outputFilename: string, opti
    }
 
    if (mp3Path instanceof Array) {
-      args.push(`"concat:${mp3Path.join("|")}"`)
+      if (mp3Path.length > 1) {
+         args.push(`"concat:${mp3Path.join("|")}"`)
+      }
+      else {
+         args.push(`"${mp3Path[0]}"`)
+      }
    }
    else {
-      args.push(mp3Path)
+      args.push(`"${mp3Path}"`)
    }
 
    if (coverPicturePath) {
@@ -46,17 +51,18 @@ async function mp3ToAac(mp3Path: string | string[], outputFilename: string, opti
 
    if (metadata) {
       addMetaData(args, "album", metadata.album)
-      addMetaData(args, "author", metadata.author)
+      addMetaData(args, "artist", metadata.artist)
       addMetaData(args, "album_artist", metadata.albumArtist)
       addMetaData(args, "grouping", metadata.grouping)
       addMetaData(args, "composer", metadata.composer)
-      addMetaData(args, "year", metadata.year)
+      addMetaData(args, "date", metadata.year)
       addMetaData(args, "track", metadata.trackNumber)
       addMetaData(args, "comment", metadata.comment)
       addMetaData(args, "genre", metadata.genre)
       addMetaData(args, "copyright", metadata.copyright)
       addMetaData(args, "description", metadata.description)
       addMetaData(args, "synopsis", metadata.synopsis)
+      addMetaData(args, "title", metadata.title)
    }
 
    args.push(`"${outputFilename}"`)
@@ -72,12 +78,16 @@ async function mp3ToAac(mp3Path: string | string[], outputFilename: string, opti
    if (opt.debug) {
       console.debug(`Created file ${outputFilename}`)
    }
-
 }
 
 function addMetaData(args: string[], key: string, value: string | number | undefined) {
    if (value != undefined) {
-      args.push("-metadata", `${key}="${value}"`)
+      if (typeof value == "number") {
+         args.push("-metadata", `${key}=${value}`)
+      }
+      else {
+         args.push("-metadata", `${key}="${value.replace("\"", "\\\"")}"`)
+      }
    }
 }
 
@@ -95,6 +105,3 @@ function onExit(childProcess: ChildProcess): Promise<void> {
       });
    });
 }
-
-
-export default mp3ToAac

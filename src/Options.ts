@@ -21,23 +21,25 @@ export default interface Options {
    /**
     * Metadata overrides. By default ffmpeg will copy any metadata on the mp3 to the output file, these will allow you to specify your own metadata
     */
-   metaDataOverrides?: {
-      title?: string,
-      author?: string,
-      albumArtist?: string,
-      album?: string,
-      grouping?: string,
-      composer?: string,
-      year?: number,
-      trackNumber?: number,
-      comment?: string,
-      genre?: string,
-      copyright?: string,
-      description?: string,
-      synopsis?: string,
-      /**
-       * The path for the cover photo that should be added to the file
-       */
-      coverPicturePath?: string,
-   }
+   metaDataOverrides?: Metadata
+}
+
+export interface Metadata {
+   title?: string,
+   artist?: string,
+   albumArtist?: string,
+   album?: string,
+   grouping?: string,
+   composer?: string,
+   year?: number,
+   trackNumber?: number,
+   comment?: string,
+   genre?: string,
+   copyright?: string,
+   description?: string,
+   synopsis?: string,
+   /**
+    * The path for the cover photo that should be added to the file
+    */
+   coverPicturePath?: string,
 }

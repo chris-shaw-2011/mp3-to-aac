@@ -12,16 +12,26 @@ const DefaultOptions_1 = __importDefault(require("./DefaultOptions"));
  * @param outputFileName The output name of the converted file (should end in .m4a or .m4b)
  * @param options
  */
-async function mp3ToAac(mp3Path, outputFilename, options) {
+exports.default = async (mp3Path, outputFilename, options) => {
     const opt = { ...DefaultOptions_1.default, ...options };
     var args = ["-i"];
     const metadata = opt.metaDataOverrides;
     const coverPicturePath = metadata && metadata.coverPicturePath ? metadata.coverPicturePath : "";
+    if (opt.debug) {
+        console.debug("mp3Path:", mp3Path);
+        console.debug("outputFilename:", outputFilename);
+        console.debug("Applied Options:", opt);
+    }
     if (mp3Path instanceof Array) {
-        args.push(`"concat:${mp3Path.join("|")}"`);
+        if (mp3Path.length > 1) {
+            args.push(`"concat:${mp3Path.join("|")}"`);
+        }
+        else {
+            args.push(`"${mp3Path[0]}"`);
+        }
     }
     else {
-        args.push(mp3Path);
+        args.push(`"${mp3Path}"`);
     }
     if (coverPicturePath) {
         args.push("-i", `"${coverPicturePath}"`);
@@ -36,19 +46,20 @@ async function mp3ToAac(mp3Path, outputFilename, options) {
     }
     if (metadata) {
         addMetaData(args, "album", metadata.album);
-        addMetaData(args, "author", metadata.author);
+        addMetaData(args, "artist", metadata.artist);
         addMetaData(args, "album_artist", metadata.albumArtist);
         addMetaData(args, "grouping", metadata.grouping);
         addMetaData(args, "composer", metadata.composer);
-        addMetaData(args, "year", metadata.year);
+        addMetaData(args, "date", metadata.year);
         addMetaData(args, "track", metadata.trackNumber);
         addMetaData(args, "comment", metadata.comment);
         addMetaData(args, "genre", metadata.genre);
         addMetaData(args, "copyright", metadata.copyright);
         addMetaData(args, "description", metadata.description);
         addMetaData(args, "synopsis", metadata.synopsis);
+        addMetaData(args, "title", metadata.title);
     }
-    args.push(`"${outputFilename}`);
+    args.push(`"${outputFilename}"`);
     if (opt.debug) {
         console.debug(`Running command ${ffmpeg_static_1.path} ${args.join(" ")}`);
     }
@@ -57,10 +68,15 @@ async function mp3ToAac(mp3Path, outputFilename, options) {
     if (opt.debug) {
         console.debug(`Created file ${outputFilename}`);
     }
-}
+};
 function addMetaData(args, key, value) {
     if (value != undefined) {
-        args.push("-metadata", `${key}="${value}"`);
+        if (typeof value == "number") {
+            args.push("-metadata", `${key}=${value}`);
+        }
+        else {
+            args.push("-metadata", `${key}="${value.replace("\"", "\\\"")}"`);
+        }
     }
 }
 function onExit(childProcess) {
@@ -78,4 +94,3 @@ function onExit(childProcess) {
         });
     });
 }
-exports.default = mp3ToAac;

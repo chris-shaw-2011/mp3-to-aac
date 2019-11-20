@@ -11,3 +11,4 @@ yarn-debug.log*
 yarn-error.log*
 
 .vscode
+*.out.m4a
