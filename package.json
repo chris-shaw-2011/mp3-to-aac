@@ -1,6 +1,6 @@
 {
   "name": "mp3-to-aac",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Uses ffmpeg to convert one or more mp3 files to aac (m4a or m4b)",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
