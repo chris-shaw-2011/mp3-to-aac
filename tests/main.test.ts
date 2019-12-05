@@ -1,9 +1,8 @@
 import mp3ToAac from "../src/index"
 import { expect } from "chai"
 import fs from "fs"
-import jsmediatags from "jsmediatags"
-import { TagType } from "jsmediatags/types"
 import { Metadata } from "../src/Options"
+import * as mm from "music-metadata"
 
 describe("mp3-to-aac", () => {
    it("Encoding single mp3", async () => {
@@ -55,20 +54,16 @@ describe("mp3-to-aac", () => {
          metaDataOverrides: overrides
       })
 
-      var tags = (await new Promise((resolve, error) => jsmediatags.read(out, {
-         onSuccess: (tags) => resolve(tags),
-         onError: (e) => error(e),
-      })) as TagType).tags
+      const tags = (await mm.parseFile(out)).common;
 
       expect(tags.album).to.equal(overrides.album)
       expect(tags.artist).to.equal(overrides.artist)
-      expect(tags.comment).to.equal(overrides.comment)
-      expect(tags.genre).to.equal(overrides.genre)
+      expect(tags.comment![0]).to.equal(overrides.comment)
+      expect(tags.genre![0]).to.equal(overrides.genre)
       expect(tags.title).to.equal(overrides.title)
-      expect(tags.track).to.equal(overrides.trackNumber)
-      expect(tags.year).to.equal(overrides.year!.toString())
-      expect(tags.picture).not.be.undefined
-      expect(tags.picture!.data.length).is.greaterThan(0)
+      expect(tags.track.no).to.equal(overrides.trackNumber)
+      expect(tags.year).to.equal(overrides.year)
+      expect(tags.picture!.length).is.greaterThan(0)
 
       await removeIfExsits(out)
    })
