@@ -12,7 +12,7 @@ yarn add mp3-to-aac
 ### Javascript
 
 ```javascript
-const mp3ToAac = require('mp3-to-aac');
+const mp3ToAac = require('mp3-to-aac').mp3ToAac;
 
 mp3ToAac("file.mp3", "output.m4a")
 ```
