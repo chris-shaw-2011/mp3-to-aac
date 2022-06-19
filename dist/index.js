@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const child_process_1 = require("child_process");
-const ffmpeg_static_1 = require("ffmpeg-static");
+const ffmpeg_static_1 = __importDefault(require("ffmpeg-static"));
 const DefaultOptions_1 = __importDefault(require("./DefaultOptions"));
 /**
  *
@@ -61,9 +61,9 @@ exports.default = async (mp3Path, outputFilename, options) => {
     }
     args.push(`"${outputFilename}"`);
     if (opt.debug) {
-        console.debug(`Running command ${ffmpeg_static_1.path} ${args.join(" ")}`);
+        console.debug(`Running command ${ffmpeg_static_1.default} ${args.join(" ")}`);
     }
-    const ffmpeg = child_process_1.spawn(ffmpeg_static_1.path, args, { cwd: opt.cwd, windowsVerbatimArguments: true, detached: opt.detached, stdio: opt.pipeStdio ? ["pipe", process.stdout, process.stderr] : undefined });
+    const ffmpeg = (0, child_process_1.spawn)(ffmpeg_static_1.default, args, { cwd: opt.cwd, windowsVerbatimArguments: true, detached: opt.detached, stdio: opt.pipeStdio ? ["pipe", process.stdout, process.stderr] : undefined });
     await onExit(ffmpeg);
     if (opt.debug) {
         console.debug(`Created file ${outputFilename}`);

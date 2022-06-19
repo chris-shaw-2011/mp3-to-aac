@@ -1,5 +1,5 @@
 import { spawn, ChildProcess } from "child_process"
-import { path as ffmpegPath } from "ffmpeg-static"
+import ffmpegPath from "ffmpeg-static"
 import Options from "./Options"
 import DefaultOptions from "./DefaultOptions"
 
